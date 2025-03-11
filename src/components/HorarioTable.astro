@@ -1,0 +1,36 @@
+---
+import "../styles/global.css";
+
+// Definimos los días y las horas como arrays para generar la tabla dinámicamente
+const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+const horas = [
+  "06:45", "07:30", "08:15", "09:00", "09:45", "10:30", "11:15", "12:00", "12:45",
+  "13:30", "14:15", "15:00", "15:45", "16:30", "17:15", "18:00", "18:45", "19:30",
+  "20:15", "21:00"
+];
+---
+
+<div class="overflow-x-auto ">
+  <table class="min-w-full bg-white border border-gray-300 text-sm md:text-base ">
+    <!-- Encabezado de la tabla -->
+    <thead class="bg-sky-500 text-white">
+      <tr>
+        <th class="p-2 border-b border-gray-300 text-left">Hora</th>
+        {dias.map(dia => (
+          <th class="p-2 border-b border-gray-300 text-center">{dia}</th>
+        ))}
+      </tr>
+    </thead>
+    <!-- Cuerpo de la tabla -->
+    <tbody>
+      {horas.map(hora => (
+        <tr class="hover:bg-gray-100">
+          <td class="p-2 border-b border-gray-300 font-medium">{hora}</td>
+          {dias.map(() => (
+            <td class="p-2 border-b border-gray-300"></td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
