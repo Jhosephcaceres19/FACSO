@@ -2,36 +2,63 @@
 import "../styles/global.css";
 import HorarioTable from "../components/HorarioTable.astro";
 import Layout from "../layouts/Layout.astro";
----
+import { getCollection } from "astro:content";
 
+// Obtener todos los semestres de la colección 'carreras'
+const semestres = await getCollection("carreras", ({ id }) => {
+  return id.startsWith("sociologia/semestre-");
+});
+
+// Ordenar los semestres numéricamente
+semestres.sort((a, b) => {
+  const numA = parseInt(a.id.split("-")[1]);
+  const numB = parseInt(b.id.split("-")[1]);
+  return numA - numB;
+});
+---
 
 <Layout>
   <div class="flex flex-col min-h-screen pt-10">
     <header class="text-3xl font-bold bg-sky-500 p-4 text-center text-white">
       FACULTAD DE SOCIOLOGÍA
     </header>
+    
     <nav class="bg-sky-500 p-2 mt-2 w-full md:w-3xs md:mt-2 md:border-r-8 border-gray-300">
-      <ul class="mt-2 space-y-2">
-        <li>
-          <a
-            href="#"
-            class="block text-xl font-semibold text-white hover:bg-sky-600 p-2 rounded-md transition-colors"
-          >
-            PRIMER SEMESTRE
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            class="block text-xl font-semibold text-white hover:bg-sky-600 p-2 rounded-md transition-colors"
-          >
-            SEGUNDO SEMESTRE
-          </a>
-        </li>
-      </ul>
+      <div class="mt-2 space-y-2">
+        {semestres.map((semestre) => (
+          <details class="group">
+            <summary class="block text-xl font-semibold text-white hover:bg-sky-600 p-2 rounded-md transition-colors cursor-pointer">
+              {semestre.data.nombre.toUpperCase()}
+            </summary>
+            <ul class="ml-4 mt-2 space-y-1 bg-sky-600 p-2 rounded-md">
+              {semestre.data.materias.map((materia) => (
+                <li class="text-white text-sm border-b-2 p-1 hover:bg-fuchsia-500">
+                  {materia.nombre} 
+                </li>
+              ))}
+            </ul>
+          </details>
+        ))}
+      </div>
     </nav>
-    <div class="p-4 ">
+    
+    <div class="p-4">
       <HorarioTable />
     </div>
   </div>
+
+  <style>
+    /* Estilos para el acordeón */
+    details[open] > summary {
+      background-color: #0284c7;
+    }
+    
+    details > summary::-webkit-details-marker {
+      color: white;
+    }
+    
+    details > summary {
+      outline: none;
+    }
+  </style>
 </Layout>
