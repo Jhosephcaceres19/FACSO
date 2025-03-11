@@ -8,9 +8,14 @@ const carrerasCollection = defineCollection({
     carrera: z.string().optional(), // Nombre de la carrera
     materias: z.array(
       z.object({
-        nombre: z.string(),
-        horario: z.string(),
-        aula: z.string(),
+        nombre: z.string(), // Nombre de la materia
+        docentes: z.array(
+          z.object({
+            nombre: z.string(), // Nombre del docente
+            horario: z.string(), // Horario del docente
+            aula: z.string(), // Aula asignada al docente
+          })
+        ),
       })
     ),
   }),

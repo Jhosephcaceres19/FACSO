@@ -33,7 +33,18 @@ semestres.sort((a, b) => {
             <ul class="ml-4 mt-2 space-y-1 bg-sky-600 p-2 rounded-md">
               {semestre.data.materias.map((materia) => (
                 <li class="text-white text-sm border-b-2 p-1 hover:bg-fuchsia-500">
-                  {materia.nombre} 
+                  <details class="group-materia">
+                    <summary class="block text-sm font-medium text-white hover:text-fuchsia-200 transition-colors cursor-pointer">
+                      {materia.nombre}
+                    </summary>
+                    <ul class="ml-4 mt-1 space-y-1 bg-sky-700 p-2 rounded-md text-xs">
+                      {materia.docentes.map((docente) => (
+                        <li class="text-white">
+                          {docente.nombre}
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
                 </li>
               ))}
             </ul>
@@ -48,17 +59,35 @@ semestres.sort((a, b) => {
   </div>
 
   <style>
-    /* Estilos para el acordeón */
-    details[open] > summary {
+    /* Estilos para el acordeón de semestres */
+    details.group[open] > summary {
       background-color: #0284c7;
     }
     
-    details > summary::-webkit-details-marker {
+    details.group > summary::-webkit-details-marker {
       color: white;
     }
     
-    details > summary {
+    details.group > summary {
       outline: none;
+    }
+
+    /* Estilos para el acordeón de materias */
+    details.group-materia[open] > summary {
+      color: #f0abfc; /* Color fucsia claro cuando está abierto */
+    }
+    
+    details.group-materia > summary::-webkit-details-marker {
+      color: white;
+    }
+    
+    details.group-materia > summary {
+      outline: none;
+    }
+
+    /* Ajustes generales */
+    .group-materia {
+      margin: 0; /* Evita márgenes adicionales no deseados */
     }
   </style>
 </Layout>
